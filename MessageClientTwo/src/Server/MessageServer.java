@@ -32,9 +32,13 @@ public class MessageServer {
   msg.setId(1);
   msg.setContent("Test message");
   
+  MessageData msgTwo = new MessageData();
+  msg.setId(2);
+  msg.setContent("Test message");
+  
   // Create the encoder and decoder for targetEncoding
   Charset charset = Charset.forName("UTF-8");
-  CharsetDecoder decoder = charset.newDecoder();
+ // CharsetDecoder decoder = charset.newDecoder();
   CharsetEncoder encoder = charset.newEncoder();
   byte [] underlyingBuffer = new byte[1024];
   ByteBuffer buffer = ByteBuffer.wrap(underlyingBuffer);
@@ -44,7 +48,7 @@ public class MessageServer {
    Socket client = new Socket("localhost", 8080);
    
    OutputStream oStream = client.getOutputStream();
-   InputStream iStream = client.getInputStream();
+  // InputStream iStream = client.getInputStream();
 
    serialize(buffer, msg, encoder);
    
@@ -55,14 +59,18 @@ public class MessageServer {
    
    System.out.println("#Bytes in output buffer: " + written + " limit = " + buffer.limit() + " pos = " + buffer.position() + " remaining = " + buffer.remaining());
    
+   //Get remaining data out of the stream to make sure everything gets read.
    int remaining = dataToSend;
    while(remaining > 0)
    {
     oStream.write(buffer.get());
+    //Reduce remaining.
     -- remaining;
    }
    
+
    // now client echoes back the data.
+//   // now client echoes back the data.
 //   ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 //   readBuffer.order(ByteOrder.LITTLE_ENDIAN);
 //   
@@ -70,6 +78,7 @@ public class MessageServer {
 //   while(db != -1)
 //   {
 //    System.out.println(db);
+//    //System.out.println(db);
 //    readBuffer.put((byte)db);
 //    db = iStream.read();
 //   }
@@ -91,6 +100,7 @@ public class MessageServer {
 //   
 //   System.out.println("ID: " + rMsg.getId());
 //   System.out.println("Content written: " + rMsg.getContent());
+//   System.out.println("Message content: " + rMsg.getContent());
 //   System.out.flush();
    
    client.close();
@@ -110,7 +120,7 @@ public class MessageServer {
   CharBuffer nameBuffer = CharBuffer.wrap(msg.getContent().toCharArray());
   ByteBuffer nbBuffer = null;
   
-  // length of first name
+  // length of content
   try
   {
    nbBuffer = encoder.encode(nameBuffer);
@@ -124,7 +134,7 @@ public class MessageServer {
   buffer.putInt(nbBuffer.limit());
   buffer.put(nbBuffer);
   
-  // length of first name
+  // length of content
   try
   {
    nbBuffer = encoder.encode(nameBuffer);   
