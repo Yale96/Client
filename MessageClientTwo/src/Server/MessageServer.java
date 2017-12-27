@@ -67,8 +67,6 @@ public class MessageServer {
     //Reduce remaining.
     -- remaining;
    }
-   
-
    // now client echoes back the data.
 //   // now client echoes back the data.
 //   ByteBuffer readBuffer = ByteBuffer.allocate(1024);
@@ -107,9 +105,7 @@ public class MessageServer {
    
   } catch(Exception e) {
    e.printStackTrace(System.err);
-  } finally {
-   System.out.println("Written bytes: " + written);
-  }
+  } 
  }
  
  private static void serialize(ByteBuffer buffer, MessageData msg, CharsetEncoder encoder)
