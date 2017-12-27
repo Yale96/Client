@@ -63,35 +63,35 @@ public class MessageServer {
    }
    
    // now client echoes back the data.
-   ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-   readBuffer.order(ByteOrder.LITTLE_ENDIAN);
-   
-   int db = iStream.read();
-   while(db != -1)
-   {
-    System.out.println(db);
-    readBuffer.put((byte)db);
-    db = iStream.read();
-   }
-   
-   int numberOfBytesRead = readBuffer.position();
-   
-   System.out.println("Number of bytes read: " + numberOfBytesRead);
-   
-   readBuffer.flip();
-
-   MessageData rMsg = new MessageData();
-   rMsg.setId(readBuffer.getInt());
-   
-   int length = readBuffer.getInt();
-   System.out.println("Content length: " + length);
-   byte [] stringBuffer = new byte[length];
-   readBuffer.get(stringBuffer);
-   rMsg.setContent(decoder.decode(ByteBuffer.wrap(stringBuffer)).toString());
-   
-   System.out.println("ID: " + rMsg.getId());
-   System.out.println("Content written: " + rMsg.getContent());
-   System.out.flush();
+//   ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+//   readBuffer.order(ByteOrder.LITTLE_ENDIAN);
+//   
+//   int db = iStream.read();
+//   while(db != -1)
+//   {
+//    System.out.println(db);
+//    readBuffer.put((byte)db);
+//    db = iStream.read();
+//   }
+//   
+//   int numberOfBytesRead = readBuffer.position();
+//   
+//   System.out.println("Number of bytes read: " + numberOfBytesRead);
+//   
+//   readBuffer.flip();
+//
+//   MessageData rMsg = new MessageData();
+//   rMsg.setId(readBuffer.getInt());
+//   
+//   int length = readBuffer.getInt();
+//   System.out.println("Content length: " + length);
+//   byte [] stringBuffer = new byte[length];
+//   readBuffer.get(stringBuffer);
+//   rMsg.setContent(decoder.decode(ByteBuffer.wrap(stringBuffer)).toString());
+//   
+//   System.out.println("ID: " + rMsg.getId());
+//   System.out.println("Content written: " + rMsg.getContent());
+//   System.out.flush();
    
    client.close();
    
