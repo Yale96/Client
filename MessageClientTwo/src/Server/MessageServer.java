@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Client;
+package Server;
 /**
  *
  * @author yannick
@@ -21,9 +21,9 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
-import Client.MessageData;
+import Server.MessageData;
 
-public class MessageClientTwo {
+public class MessageServer {
  public static void main(String [] args)
  {
   
