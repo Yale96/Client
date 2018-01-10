@@ -17,20 +17,22 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import Server.MessageData;
+import com.google.gson.Gson;
 
 public class MessageServer {
  public static void main(String [] args)
  {
   
   int written = 0;
+  Gson gson = new Gson();
   MessageData msg = new MessageData();
-  msg.setId(1);
-  msg.setContent("Test message");
-  
-  MessageData msgTwo = new MessageData();
-  msgTwo.setId(2);
-  msgTwo.setContent("Test message two");
-  
+  msg.setApplicatie("Werknemerloket");
+  msg.setTijdstip("12:40");
+  msg.setLoglevel("Verbose");
+  msg.setLocatie("Werknemerloket/login");
+  msg.setData("Login mislukt");
+  String json = gson.toJson(msg);
+    
   // Create the encoder and decoder for targetEncoding
   Charset charset = Charset.forName("UTF-8");
  // CharsetDecoder decoder = charset.newDecoder();
@@ -44,7 +46,7 @@ public class MessageServer {
    
    OutputStream oStream = client.getOutputStream();
 
-   serialize(buffer, msg, encoder);
+   serialize(buffer, json, encoder);
    
    buffer.flip();
    
@@ -69,12 +71,12 @@ public class MessageServer {
   } 
  }
  
- private static void serialize(ByteBuffer buffer, MessageData msg, CharsetEncoder encoder)
+ private static void serialize(ByteBuffer buffer, String msg, CharsetEncoder encoder)
  {
   // id
-  buffer.putInt(msg.getId());
+ 
   
-  CharBuffer nameBuffer = CharBuffer.wrap(msg.getContent().toCharArray());
+  CharBuffer nameBuffer = CharBuffer.wrap(msg.toCharArray());
   ByteBuffer nbBuffer = null;
   
   // length of content
@@ -87,7 +89,7 @@ public class MessageServer {
     throw new ArithmeticException();
   }
 
-  System.out.println(String.format("String [%1$s] #bytes = %2$s", msg.getContent(), nbBuffer.limit()));
+  System.out.println(String.format("String [%1$s] #bytes = %2$s", msg, nbBuffer.limit()));
   buffer.putInt(nbBuffer.limit());
   buffer.put(nbBuffer);
   
