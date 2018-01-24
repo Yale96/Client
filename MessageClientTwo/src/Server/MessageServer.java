@@ -72,17 +72,14 @@ public class MessageServer {
  }
  
  private static void serialize(ByteBuffer buffer, String msg, CharsetEncoder encoder)
- {
-  // id
- 
-  
-  CharBuffer nameBuffer = CharBuffer.wrap(msg.toCharArray());
+ {  
+  CharBuffer messageBuffer = CharBuffer.wrap(msg.toCharArray());
   ByteBuffer nbBuffer = null;
   
   // length of content
   try
   {
-    nbBuffer = encoder.encode(nameBuffer);
+    nbBuffer = encoder.encode(messageBuffer);
   } 
   catch(CharacterCodingException e)
   {
@@ -96,7 +93,7 @@ public class MessageServer {
   // length of content
   try
   {
-    nbBuffer = encoder.encode(nameBuffer);   
+    nbBuffer = encoder.encode(messageBuffer);   
   } 
   catch(CharacterCodingException e)
   {
